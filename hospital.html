@@ -1,0 +1,166 @@
+<script>
+//Eventualmente quiero añadir mas objetos para el examen médico de los pacientes
+
+
+function BloodPressure(dia,sys) 
+{     
+      this.diastolic = dia;
+      this.systolic = sys;
+}
+//medical exams. Each patient gets one(perhaps an array of medical exams isnt a bad idea?)
+function MedExam(dia,sys,bpReadDate) 
+{
+      this.bpReading = new BloodPressure(dia,sys)
+      this.bpReadDate = bpReadDate
+
+}
+
+
+
+
+
+//Medical exam methods
+MedExam.prototype = 
+{
+constructor:MedExam,
+
+bpHighOrLow:function() {if(this.bpReading.dia > 140 || this.bpReading.sys > 90)
+            {console.log("You have high blood pressure. Schedule an appt!")
+            return true;}
+      else if(this.bpReading.dia < 90 || this.bpReading.sys < 60){
+            console.log("You have Low blood pressure. Schedule an appt!")
+            return true;
+      }
+      else{return false;}
+}
+}
+
+
+function Doctor(Name)
+{     
+      this.name = "Dr. " + Name;
+      this.patients = [];
+}
+
+Doctor.prototype =
+{
+      constructor:Doctor,
+
+
+      SearchPatients:function(){
+            var len = this.patients.length
+            for(j = 0; j < len; j++)
+            {
+                 return this.patients[j]
+            }
+      },
+      addNewPatient:function(patientName)
+      {
+            this.patients.push(patientName)
+      },
+listPatients:function()
+      {
+           this.SearchPatients()
+      },
+      listPatientsWithHbp:function()
+      {
+            if(this.SearchPatients().checkBp())
+            {
+                  return this.SearchPatients()
+            }
+      }
+}
+function Patient(name,birthday,dia,sys,bpReadDate) 
+{     
+      this.name = name
+      this.birthday  = birthday /* "yy/mm/dd"*/
+      this.medicalRecord = new MedExam(dia,sys,bpReadDate)
+}
+//patient methods
+Patient.prototype =
+{
+ 
+constructor:Patient,
+//An attempt to not repeat myself by generalizing this method for the 2 date getting methods.
+dateDiff:function(dateOne){
+      var today = new Date();
+    var dateOne = new Date(dateOne);
+    var diff = today.getFullYear() - dateOne.getFullYear();
+     var month = today.getMonth() - dateOne.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < dateOne.getDate())) {
+        diff--;
+    }
+    return diff;
+},
+//Dependant on the patients birthdate
+ findAge:function ()
+{
+      console.log( this.dateDiff(this.birthday) )
+   
+},
+
+//Dependant on the date of the first physical on record
+needPhys:function () 
+{
+      if(this.dateDiff(this.medicalRecord.bpReadDate) > 1){
+            return true;
+            console.log("You need a physicial")
+      }
+      else{return false;
+            console.log("You good.")}
+},
+//checks for blood pressuere issues (High or low)
+checkBp:function()
+{
+
+     if(this.medicalRecord.bpHighOrLow())
+     {
+      return this.medicalRecord.bpHighOrLow()
+     }
+     else{return null;}
+}
+}
+
+var Alvin = new Patient("Alvin McClintock","4/30/1971",110,85,"01/29/1996")
+var Mike = new Patient("Mike Mikeson","07/04/1973",131,95,"09/29/1997")
+var Rachel = new Patient("Rachel Machel","09/12/1973",121,90,"11/30/1998")
+var Emeril = new Patient("Emeril Rarity","04/11/1978",110,85,"04/29/1999")
+var Lana = new Patient("Lana Setuphanacus","5/12/1978",110,85,"08/29/2000")
+var Rick = new Patient("Rick Grimes","07/16/1982",110,85,"11/29/2001")
+var John = new Patient("John Sonkid","07/08/1986",110,85,"08/29/2002")
+var Lilly = new Patient("Lilly Ian","01/04/1989",110,85,"08/29/2003")
+var Raven = new Patient("Raven Crow","10/23/1990",110,85,"08/29/2004")
+var Marvina = new Patient("Marivna Scharvina","6/16/1993",110,85,"08/29/2005")
+var Arina = new Patient("Arina Damina","09/22/1980",110,85,"08/29/2006")
+var Shelly = new Patient("Shelly Fish","07/16/1978",110,85,"08/29/2007")
+var Denali = new Patient("Denali Schenali","02/18/1993",110,85,"08/29/2008")
+var Lexus = new Patient("Lexus Texus","09/28/1993",110,85,"08/29/2009")
+var Bugatti = new Patient("Bugatti Veyrnon","09/28/1993",110,85,"08/29/2010")
+var Hewlett = new Patient("Hewlett Packard","09/02/1983",110,85,"08/29/2011")
+var Packard = new Patient("Packard Hewlett","09/11/1978",110,85,"08/29/2012")
+var Michelle = new Patient("Michelle Nodrama","09/28/1993",110,85,"08/29/2013")
+var Reba = new Patient("Reba Schmeba","09/28/1993",110,85,"08/29/2014")
+var Colt = new Patient("Colt Schmeba","09/28/1993",110,85,"08/29/2015")
+var Shane = new Patient("Shane Schmeba","09/28/1993",110,85,"08/29/2016")
+var Craig = new Doctor("Craig Smew")
+Craig.addNewPatient(Alvin)
+Craig.addNewPatient(Mike)
+Craig.addNewPatient(Rachel)
+Craig.addNewPatient(Rick)
+Craig.addNewPatient(Colt)
+Craig.addNewPatient(Shane)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+// Craig.addNewPatient(Alvin)
+
+</script>
