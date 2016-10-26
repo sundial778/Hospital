@@ -24,12 +24,17 @@ MedExam.prototype =
 {
 constructor:MedExam,
 
-bpHighOrLow:function() {if(this.bpReading.dia > 140 || this.bpReading.sys > 90)
-            {console.log("You have high blood pressure. Schedule an appt!")
-            return true;}
-      else if(this.bpReading.dia < 90 || this.bpReading.sys < 60){
-            console.log("You have Low blood pressure. Schedule an appt!")
-            return true;
+bpHighOrLow:function() {if((this.bpReading.diastolic > 140 || this.bpReading.systolic > 90))
+            {
+                  console.log("You have high blood pressure. Schedule an appt!")
+            return "High";
+
+      
+      }
+      else if(this.bpReading.diastolic < 90 || this.bpReading.systolic < 60){
+            console.log("You don't have high blood pressure but,you have Low blood pressure. Schedule an appt!")
+            return "Low";
+            
       }
       else{return false;}
 }
@@ -40,34 +45,51 @@ function Doctor(Name)
 {     
       this.name = "Dr. " + Name;
       this.patients = [];
+      
 }
 
 Doctor.prototype =
 {
       constructor:Doctor,
 
+SearchPatients:function(index)
+{
+    return this.patients[index]   
+},
+      listPatients:function()
+      {
+            
+           var patientLen =  this.patients.length
+            do {
+                  console.log(this.patients[patientLen])
+                  patientLen--
 
-      SearchPatients:function(){
-            var len = this.patients.length
-            for(j = 0; j < len; j++)
-            {
-                 return this.patients[j]
             }
-      },
+
+
+            while(patientLen > 0)
+      
+
+},
+
       addNewPatient:function(patientName)
       {
             this.patients.push(patientName)
       },
-listPatients:function()
-      {
-           this.SearchPatients()
-      },
-      listPatientsWithHbp:function()
-      {
-            if(this.SearchPatients().checkBp())
-            {
-                  return this.SearchPatients()
-            }
+
+      listPatientsWithHbp:function(indexy)
+      {          var patientWithBpIssues 
+            indexy =0
+                  do{ patientWithBpIssues  = this.SearchPatients(indexy).checkBp() 
+                        
+                        if(patientWithBpIssues === "High"){
+                              console.log(this.patients[indexy])
+                        }
+
+                        indexy ++
+                  }
+                  while(indexy < this.patients.length)
+
       }
 }
 function Patient(name,birthday,dia,sys,bpReadDate) 
@@ -112,16 +134,15 @@ needPhys:function ()
 //checks for blood pressuere issues (High or low)
 checkBp:function()
 {
-
-     if(this.medicalRecord.bpHighOrLow())
+var bpCheck = this.medicalRecord.bpHighOrLow()
+     if(bpCheck)
      {
-      return this.medicalRecord.bpHighOrLow()
+           return bpCheck
      }
-     else{return null;}
-}
+     }
 }
 
-var Alvin = new Patient("Alvin McClintock","4/30/1971",110,85,"01/29/1996")
+var Alvin = new Patient("Alvin McClintock","4/30/1971",180,90,"01/29/1996")
 var Mike = new Patient("Mike Mikeson","07/04/1973",131,95,"09/29/1997")
 var Rachel = new Patient("Rachel Machel","09/12/1973",121,90,"11/30/1998")
 var Emeril = new Patient("Emeril Rarity","04/11/1978",110,85,"04/29/1999")
